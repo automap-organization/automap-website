@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+html {
+    background-color: rgb(255, 255, 255);
+    color: white;
+    font-family: 'Lato', sans-serif;
+}
+
+nav {
+    z-index: 1000;
+}
+
+.block-container {
+    align-items: center;
+}
+
+#map, #interface {
+    display: inline-block;
+}
+
+h1, h2, h3, p, a, label {
+    text-decoration: none;
+    color: white;
+    font-family: 'Lato', sans-serif;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+h3 {
+    font-size: 30px;
+}
+
+p {
+    font-size: 20px;
+}
+
+.form-check-input {
+    cursor: pointer;
+}
+
+#interface {
+    background-color: rgb(75, 75, 75);
+    box-shadow: 0 0 12px rgb(75, 75, 75);
+    z-index: 2;
+    position:fixed;
+    width:250px;
+    height:100%;
+}
+
+#map1 {
+    position:fixed;
+    left:250px;
+    right: 0;
+    top: 59px;
+    bottom: 0;
+}
+
+#infos {
+    margin-top: 2%;
+}
+
+.input-group mb-3{
+    width: 20%;
+}
+
+/* Set the size of the div element that contains the map */
+#map {
+    height: 100%;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+}
+
+select, option {
+    cursor: pointer;
+}

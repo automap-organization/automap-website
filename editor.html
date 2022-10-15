@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automap Editor</title>
+    <link rel="stylesheet" href="assets/css/style_editor.css">
+    <link rel="icon" href="img/logo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="assets/js/map.js"></script>
+    <script src="assets/js/modals.js"></script>
+    <script src="assets/js/toasts.js"></script>
+</head>
+<body onload="loadMap()">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #333333; box-shadow: 0 0 10px #333333;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="assets/img/logo.png" alt="" width="30" height="30" class="d-inline-block align-text-top">
+        Automap Editor
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Fichier
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+              <li><a class="dropdown-item disabled" href="#">Ouvrir une carte</a></li>
+              <li><a class="dropdown-item" href="#" onclick="download_map()">Sauvegarder la carte</a></li>
+              <li><a class="dropdown-item" href="#" onclick="Avertissement1()">Rénitialiser tout</a></li>
+              <li><a class="dropdown-item" href="#" onclick="aPropos()">À propos du logiciel</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item"  href="#" onclick="Avertissement2()">Quitter Automap Editor</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Outils
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+              <li><a class="dropdown-item" href="#" onclick="AddPoint()">Ajouter un point de la carte</a></li>
+              <li><a class="dropdown-item" href="#" onclick="DelPoint()">Supprimer un point de la carte</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item disabled" href="#">Publier sur Automap Community</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="https://raw.githubusercontent.com/automap-organization/automap/main/src/exe/automap_admin.exe">Télécharger Automap Windows</a></li>
+              <li><a class="dropdown-item" href="#">Télécharger Automap Android</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Aide
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+              <li><a class="dropdown-item" target="_blank" href="https://docs.automap.tk">Documentation</a></li>
+              <li><a class="dropdown-item" target="_blank" href="https://github.com/automap-organization/automap">Dépôt github</a></li>
+              <li><a class="dropdown-item" target="_blank" href="https://automap.tk">Site internet</a></li>
+              <li><a class="dropdown-item" target="_blank" href="https://status.automap.tk">Status des services</a></li>
+              <li><a class="dropdown-item" target="_blank" href="mailto:contact@automap.tk">Notre adresse-mail</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" target="_blank" href="https://www.coordonnees-gps.fr/">Obtenir des coordonnées GPS</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+   </nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <div class="block-container">
+      <div id="interface" align="center">
+        <br>
+        <form id="infos">
+        <h3>Nom de la carte</h3>
+        <div class="input-group mb-3 w-75">
+            <input type="text" class="form-control" placeholder="Ma carte" aria-label="Username" aria-describedby="basic-addon1" id="name">
+        </div>
+        <h3>Couleur des points</h3>
+        <select class="form-select w-75" aria-label="Default select example" id="color" style="cursor: pointer;">
+          <option value="red">Rouge</option>
+          <option value="blue">Bleu</option>
+          <option value="green">Vert</option>
+          <option value="yellow">Jaune</option>
+          <option value="purple">Violet</option>
+        </select>
+        <br>
+        <h3>Type de carte</h3>
+        <select class="form-select w-75" aria-label="Default select example" id="type" onchange="changeType()" style="cursor: pointer;">
+          <option value="hybrid">Mode satellite</option>
+          <option value="roadmap">Mode standard</option>
+        </select>
+        <br/><br/>
+        <button class="btn btn-secondary" type="button" onclick="download_map()">Sauvegarder la carte</button>
+        </form>
+      </div>
+      <div id="map1">
+      <div id="map"></div>
+      <script
+      src="https://maps.googleapis.com/maps/api/js?callback=initMap&v=weekly&key=AIzaSyCCXvezyBJ1nyP7TtwI3y_wuDEmGYg92D0"
+      defer
+      ></script>
+      </div>
+      <div class="modal fade" id="aProposModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">À propos d'Automap</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Développé par Luckyluka17
+              <br>
+              Version actuelle : 1.0.0
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="DelPointModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Guide : Supprimer un point</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Pour supprimer un point, faites un clique droit dessus.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="addPointModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ajouter un point</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h3 style="color: black;">Coordonnées GPS du point</h3>
+              <input type="text" class="form-control" placeholder="Latitude" aria-label="Username" aria-describedby="basic-addon1" id="gps-marker1">
+              <input type="text" class="form-control" placeholder="Longitude" aria-label="Username" aria-describedby="basic-addon1" id="gps-marker2">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="placeMarker()">Appliquer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" id="avertReni">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Rénitialiser la carte</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">⚠ La rénitialisation va tout effacer, voulez vous continuer ?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="button" class="btn btn-danger" onclick="location.reload()">Rénitialiser</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" id="avertQuit">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Quitter et effacer</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Attention : lorsque vous quittez la page, votre travail va être effacé. Voulez vous continuer ?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="button" class="btn btn-danger" onclick="window.location.replace('https://automap.tk');">Quitter Automap Editor</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" id="avertDel">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Supprimer un point</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Voulez vous supprimer le point ?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deletePoint()">Supprimer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" id="avertName">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Erreur de téléchargement</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Veuillez donner un nom à votre carte.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" id="avertPhone">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Appareil incompatible</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Nous sommes désolé, votre appareil n'est pas compatible avec ce site. Si vous fermez cette fenêtre, vous aurez toujours accès au site mais vous ne pourrez pas bénificier de toutes les fonctionnalités.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="window.location.href = 'https://automap.tk';">Quitter & aller sur notre site</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="toast-container bottom-0 end-0 p-3" id="toast1">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+      <div class="toast-header">
+        <img src="img/logo.png" class="rounded me-2" width="6%">
+        <strong class="me-auto">Automap Editor</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Merci d'utiliser Automap Editor. Sachez que cette version est expérimentale et qu'il est possible de trouver quelques bugs. Si c'est le cas, vous pouvez nous contacter par le biais de notre adresse mail.
+        <br/><br/>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="toast">Fermer</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href = 'mailto:contact@automap.tk;'">Nous contacter</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
